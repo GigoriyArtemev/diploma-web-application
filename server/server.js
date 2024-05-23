@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const WebSocket = require('ws');
 const http = require('http');
 const multer = require('multer');
+const authRouter = require('./authRouter');
 const path = require('path');
 const fs = require('fs');
 const app = express();
@@ -21,7 +22,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+app.use(express.json()); ///???
 app.use('/uploads', express.static('uploads'));
+app.use('/auth', authRouter);
 
 app.post('/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
