@@ -1,0 +1,251 @@
+.centered-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* добавим выравнивание элементов по центру */
+}
+
+.centered-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('./assets/background_main.jpg'); /* установка изображения в качестве заднего фона */
+    background-size: cover; /* автоматический масштаб изображения */
+    background-position: center; /* центрирование изображения */
+    filter: blur(5px); /* добавляем размытие только для заднего фона */
+    z-index: -1; /* помещаем псевдоэлемент под контент */
+}
+
+.container {
+    text-align: center;
+    position: relative; /* необходимо для правильного отображения позиционированных элементов внутри */
+    z-index: 1; /* установим z-index для frame, чтобы он был над псевдоэлементом */
+}
+
+.frame {
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* добавим скрытие всего, что выходит за пределы .frame */
+}
+
+.button {
+    padding: 20px 40px; /* увеличено значение padding */
+    background-color: #904baf;
+    color: white;
+    border: 2px solid #645bc4; /* добавлен бордер */
+    border-radius: 30px; /* увеличено значение border-radius */
+    font-size: 18px; /* увеличено значение font-size */
+    font-weight: bold; /* сделан текст жирным */
+    text-transform: uppercase; /* сделан текст заглавными буквами */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* добавлено плавное переход при изменении цветов */
+}
+
+.button:hover {
+    background-color: #650f85; /* изменен цвет при наведении */
+    border-color: #340a6d; /* изменен цвет границы при наведении */
+    color: white; /* изменен цвет текста при наведении */
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-content {
+    text-align: center;
+    margin-top: 20px; /* Добавлен отступ сверху для контента вкладки */
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tab-button.active {
+    background-color: #5945a0;
+    color: #fff;
+}
+.tab-button:hover {
+    background-color: #5945a0; /* Цвет фона при наведении */
+    color: #000000; /* Цвет текста при наведении */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0; /* добавляем немного отступов сверху и снизу */
+    background-color: #5945a0; /* цвет шапки */
+    z-index: 999; /* устанавливаем высокий z-index, чтобы шапка была поверх других элементов */
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; /* сдвигаем псевдоэлемент вниз, чтобы он был за пределами шапки */
+    width: 100%;
+    height: 10px; /* высота полоски */
+    background-color: #6c2b8a; /* цвет полоски */
+    filter: blur(20px); /* размываем края */
+    z-index: -1; /* помещаем под заголовком */
+}
+main {
+    margin-top: 20px;
+    padding-top: 100px; /* Добавляем отступ сверху для контента, равный высоте шапки */
+    background-color: #ded5e4;
+    min-height: calc(
+        100vh - 200px
+    ); /* Минимальная высота блока main равна 100% высоты видимой области минус высота header */
+}
+
+h1 {
+    font-size: 24px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    color: #b77d7d; /* Цвет текста */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px; /* Устанавливаем отступ сверху */
+    margin-bottom: 20px; /* Устанавливаем отступ снизу */
+    width: 300px; /* Фиксированная ширина */
+    margin-left: auto; /* Автоматический отступ слева */
+    margin-right: auto; /* Автоматический отступ справа */
+}
+.input-container input {
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid #645bc4;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.input-container button {
+    padding: 10px 20px;
+    background-color: #904baf;
+    color: white;
+    border: 2px solid #645bc4;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.input-container button:hover {
+    background-color: #650f85;
+    border-color: #340a6d;
+}
+
+.player-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56.25vh;
+    flex-direction: column;
+}
+
+.controls-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px; /* Добавляем небольшой отступ сверху между видео и кнопками */
+}
+
+.controls-container button {
+    padding: 10px 20px;
+    background-color: #904baf;
+    color: white;
+    border: 2px solid #645bc4;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin: 0 5px; /* Добавляем небольшой отступ между кнопками */
+}
+
+.controls-container button:hover {
+    background-color: #650f85;
+    border-color: #340a6d;
+}
+
+.controls-container input[type='range'] {
+    width: 400px;
+    margin: 0 10px;
+}
+
+.chat-container {
+    position: absolute;
+    bottom: 50px;
+    /* right: 0px; */
+    /* top: 15px;*/
+    left: 30px;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-container {
+    margin-top: 200px;
+    flex-grow: 1;
+    overflow-y: auto;
+    width: calc(
+        100%
+    ); /* Ширина на 40px меньше ширины родительского контейнера */
+    border-radius: 10px; /* Скругляем углы */
+    margin-left: 20px; /* Добавляем отступ слева */
+    margin-right: 20px; /* Добавляем отступ справа */
+    background-color: #645bc4;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    word-wrap: break-word;
+}
+
+.input-chat-container {
+    margin-top: 10px;
+    margin-left: 20px;
+    display: flex; /* Добавлено */
+}
+
+.input-chat-container input {
+    padding: 8px;
+    margin-right: 5px; /* Добавлено */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.input-chat-container button {
+    padding: 8px 15px;
+    background-color: #904baf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
