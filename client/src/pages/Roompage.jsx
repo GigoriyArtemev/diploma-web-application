@@ -27,7 +27,7 @@ const Room = () => {
     const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
-        const connection = new WebSocket('ws://192.168.3.21:5000');
+        const connection = new WebSocket('ws://localhost:5000');
         setWsConnection(connection);
 
         setCurrentPageUrl(window.location.href);
