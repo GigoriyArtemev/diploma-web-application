@@ -45,6 +45,7 @@ class authController {
             res.status(400).json({ message: 'Registration error' });
         }
     }
+
     async login(req, res) {
         try {
             const { username, password } = req.body;

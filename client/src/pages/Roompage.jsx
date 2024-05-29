@@ -6,6 +6,7 @@ import Player from '../components/Player';
 import Chat from '../components/Chat';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Room = () => {
     const [currentPageUrl, setCurrentPageUrl] = useState(window.location.href);
@@ -17,12 +18,8 @@ const Room = () => {
     const [videoPlay, setVideoState] = useState(false);
     const [seekValue, setSeekValue] = useState(0);
     const [receivedSeek, setReceivedSeek] = useState(0);
-    const [receivedVideLink, setReceivedVideLink] = useState(
-        'https://youtu.be/8hSVJAOd5go?si=8YDb6jrpU7TsLv9H'
-    );
-    const [inputValue, setInputValue] = useState(
-        'https://youtu.be/8hSVJAOd5go?si=8YDb6jrpU7TsLv9H'
-    );
+    const [receivedVideLink, setReceivedVideLink] = useState(initialVideoValue);
+    const [inputValue, setInputValue] = useState(initialVideoValue);
     const [uploadedVideoUrl, setUploadedVideoUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
@@ -167,6 +164,14 @@ const Room = () => {
         setSeekValue(value);
     };
 
+    function initialVideoValue() {
+        const url = window.location.href;
+        const str = url.includes('userUploads')
+            ? '/' + decodeURIComponent(url).split('/room/')[1]
+            : 'https://youtu.be/8hSVJAOd5go?si=8YDb6jrpU7TsLv9H';
+        console.log(str);
+        return str;
+    }
     const handleDrop = useCallback(
         (acceptedFiles) => {
             const formData = new FormData();
@@ -200,6 +205,11 @@ const Room = () => {
         <div>
             <header>
                 <h1>Шапка страницы</h1>
+                <nav>
+                    <Link to='/auth/login'>Войти</Link>
+                    <Link to='/auth/register'>Регистрация</Link>
+                    <Link to='/dashboard'>Личный кабинет</Link>
+                </nav>
             </header>
             <main>
                 <div className='tabs'>
@@ -226,7 +236,7 @@ const Room = () => {
                     <div id='tab1' className='tab-content active'>
                         <InputWithButton onInputChange={handleLinkChange} />
                         <Player
-                            url={receivedVideLink} // Display uploaded video if available
+                            url={receivedVideLink}
                             onPause={handlePause}
                             onPlay={handlePlay}
                             onSeek={handleSeeking}

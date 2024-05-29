@@ -4,12 +4,14 @@ const WebSocket = require('ws');
 const http = require('http');
 const multer = require('multer');
 const authRouter = require('./authRouter');
+const authMiddleware = require('./middleware/authMiddleware');
 const path = require('path');
 const fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 const webSocketServer = new WebSocket.Server({ server });
 const port = process.env.PORT || 5000;
+const Video = require('./models/Video'); // Модель Video ПЕРЕНЕСТИ ПОТОМ
 
 // Настройка multer для сохранения видео файлов
 const storage = multer.diskStorage({
@@ -21,16 +23,80 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({ storage: storage });
+const userUpload = multer({ dest: 'userUploads/' });
+app.use('/userUploads', express.static(path.join(__dirname, 'userUploads')));
 
 app.use(express.json()); ///???
 app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRouter);
-
+//app.use('/user')
 app.post('/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
     res.status(200).send({ url: `/uploads/${req.file.filename}` });
+});
+
+app.post(
+    '/userUpload',
+    authMiddleware,
+    userUpload.single('video'),
+    async (req, res) => {
+        try {
+            const { title } = req.body;
+            const videoPath = req.file.path;
+            const userId = req.user.id;
+
+            const video = new Video({
+                title,
+                path: videoPath,
+                user: userId,
+            });
+
+            await video.save();
+
+            res.status(200).json({ videoId: video._id });
+        } catch (error) {
+            res.status(500).send('Ошибка загрузки видео');
+        }
+    }
+);
+
+app.get('/user/videos', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const videos = await Video.find({ user: userId });
+        res.json(videos);
+    } catch (error) {
+        res.status(500).send('Ошибка получения видео');
+    }
+});
+
+app.delete('/user/videos/:id', authMiddleware, async (req, res) => {
+    try {
+        const videoId = req.params.id;
+        const userId = req.user.id;
+
+        const video = await Video.findOneAndDelete({
+            _id: videoId,
+            user: userId,
+        });
+
+        if (!video) {
+            return res.status(404).send('Видео не найдено');
+        }
+
+        // Удаляем видео файл с сервера
+        fs.unlink(video.path, (err) => {
+            if (err) {
+                console.error('Ошибка удаления видео файла', err);
+            }
+        });
+
+        res.status(200).send('Видео удалено');
+    } catch (error) {
+        res.status(500).send('Ошибка удаления видео');
+    }
 });
 
 const addNewPage = (url, id) => {
