@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
 
 class Player extends React.Component {
@@ -32,7 +32,6 @@ class Player extends React.Component {
     };
 
     handleProgress = (state) => {
-        // console.log('onProgress', state);
         if (!this.state.seeking) {
             this.setState(state);
         }
@@ -43,7 +42,6 @@ class Player extends React.Component {
     };
 
     handleSeekChange = (e) => {
-        console.log('поменяли');
         this.setState({ played: parseFloat(e.target.value) });
     };
 
@@ -62,56 +60,59 @@ class Player extends React.Component {
             this.state;
 
         return (
-            <div className='player-wrapper'>
-                <ReactPlayer
-                    ref={this.player}
-                    className='react-player'
-                    url={this.props.url}
-                    width='50%'
-                    height='100%'
-                    controls={false}
-                    playing={this.props.receivedVideoState}
-                    volume={volume}
-                    onProgress={this.handleProgress}
-                />
-                <div className='controls-container'>
-                    <button
-                        className='player-controls'
-                        onClick={this.handlePlayPause}
-                    >
-                        {this.props.receivedVideoState ? 'Pause' : 'Play'}
-                    </button>
-
-                    <input
-                        type='range'
-                        min={0}
-                        max={1}
-                        step='any'
-                        value={played}
-                        onMouseDown={this.handleSeekMouseDown}
-                        onChange={this.handleSeekChange}
-                        onMouseUp={this.handleSeekMouseUp}
+            <div className='player-container'>
+                <div className='player-wrapper'>
+                    <ReactPlayer
+                        ref={this.player}
+                        className='react-player'
+                        url={this.props.url}
+                        width='100%'
+                        height='100%'
+                        controls={false}
+                        playing={this.props.receivedVideoState}
+                        volume={volume}
+                        onProgress={this.handleProgress}
                     />
-                    <button
-                        className='volume-controls'
-                        onClick={this.handleVolumeButtonClick}
-                    >
-                        Volume
-                        {controlsVisible && (
-                            <input
-                                type='range'
-                                min={0}
-                                max={1}
-                                step='any'
-                                value={volume}
-                                onChange={(e) =>
-                                    this.setState({
-                                        volume: parseFloat(e.target.value),
-                                    })
-                                }
-                            />
-                        )}
-                    </button>
+                </div>
+                <div className='controls-wrapper'>
+                    <div className='controls-container'>
+                        <button
+                            className='player-controls'
+                            onClick={this.handlePlayPause}
+                        >
+                            {this.props.receivedVideoState ? 'Pause' : 'Play'}
+                        </button>
+                        <input
+                            type='range'
+                            min={0}
+                            max={1}
+                            step='any'
+                            value={played}
+                            onMouseDown={this.handleSeekMouseDown}
+                            onChange={this.handleSeekChange}
+                            onMouseUp={this.handleSeekMouseUp}
+                        />
+                        <button
+                            className='volume-controls'
+                            onClick={this.handleVolumeButtonClick}
+                        >
+                            Volume
+                            {controlsVisible && (
+                                <input
+                                    type='range'
+                                    min={0}
+                                    max={1}
+                                    step='any'
+                                    value={volume}
+                                    onChange={(e) =>
+                                        this.setState({
+                                            volume: parseFloat(e.target.value),
+                                        })
+                                    }
+                                />
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         );

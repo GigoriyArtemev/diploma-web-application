@@ -1,0 +1,75 @@
+/* chat.css */
+
+.chat-container {
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px; /* Ширина чата */
+    height: 400px; /* Высота чата */
+    border: 1px solid #2e8b57;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.messages-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse; /* Переворачиваем порядок сообщений */
+    padding: 10px;
+    overflow-y: auto; /* Полоска прокрутки при необходимости */
+    word-break: break-word; /* Перенос длинных сообщений */
+}
+
+.message {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+    word-wrap: break-word; /* Перенос длинных слов */
+}
+
+.input-chat-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #2e8b57;
+}
+
+.input-chat-container input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #2e8b57;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.input-chat-container button {
+    background-color: #2e8b57;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.input-chat-container button:hover {
+    background-color: #ffb6c1;
+    color: #2e8b57;
+}
+
+/* Для десктопной ориентации */
+@media (min-width: 768px) {
+    .chat-container {
+        max-width: none; /* Убираем максимальную ширину */
+        width: 100%; /* Растягиваем на всю ширину */
+    }
+
+    .messages-container {
+        max-height: 300px; /* Максимальная высота контейнера сообщений */
+    }
+
+    .input-chat-container {
+        max-width: 100%; /* Растягиваем контейнер ввода на всю ширину */
+    }
+}

@@ -1,0 +1,74 @@
+/* room.css */
+
+body {
+    background-color: #f7f1f1; /* Нежно-розовый фон */
+}
+
+header {
+    background-color: #2e8b57; /* Хвойно-зеленый цвет шапки */
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header nav {
+    margin-top: 10px;
+}
+
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.div-container {
+    background-image: url('/backgroundDIV.jpg');
+}
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.dropzone {
+    padding: 20px;
+    border: 2px dashed #2e8b57;
+    border-radius: 5px;
+    text-align: center;
+    color: #2e8b57;
+}
+
+.dropzone p {
+    margin: 0;
+}
+
+.dropzone input {
+    display: none;
+}

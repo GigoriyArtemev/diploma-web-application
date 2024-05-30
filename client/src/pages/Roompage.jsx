@@ -22,9 +22,10 @@ const Room = () => {
     const [inputValue, setInputValue] = useState(initialVideoValue);
     const [uploadedVideoUrl, setUploadedVideoUrl] = useState('');
     const [isUploading, setIsUploading] = useState(false);
+    const [isChatVisible, setIsChatVisible] = useState(true);
 
     useEffect(() => {
-        const connection = new WebSocket('ws://localhost:5000');
+        const connection = new WebSocket('ws://192.168.3.2:5000');
         setWsConnection(connection);
 
         setCurrentPageUrl(window.location.href);
@@ -148,6 +149,10 @@ const Room = () => {
         setLastMessage(message);
     };
 
+    const toggleChatVisibility = () => {
+        setIsChatVisible(!isChatVisible);
+    };
+
     const openTab = (tabId) => {
         setActiveTab(tabId);
     };
@@ -168,7 +173,7 @@ const Room = () => {
         const url = window.location.href;
         const str = url.includes('userUploads')
             ? '/' + decodeURIComponent(url).split('/room/')[1]
-            : 'https://youtu.be/8hSVJAOd5go?si=8YDb6jrpU7TsLv9H';
+            : 'https://www.youtube.com/watch?v=KoXg55nT4zY&ab_channel=JAZZ%26BLUES';
         console.log(str);
         return str;
     }
@@ -202,9 +207,9 @@ const Room = () => {
     const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop });
 
     return (
-        <div>
+        <div className='div-container'>
             <header>
-                <h1>Шапка страницы</h1>
+                <h1>Навигация</h1>
                 <nav>
                     <Link to='/auth/login'>Войти</Link>
                     <Link to='/auth/register'>Регистрация</Link>
@@ -225,13 +230,14 @@ const Room = () => {
                     >
                         Your video
                     </Button>
+                    <button
+                        onClick={toggleChatVisibility}
+                        className='tab-button'
+                    >
+                        {isChatVisible ? 'Скрыть чат' : 'Показать чат'}
+                    </button>
                 </div>
-                <div>
-                    <Chat
-                        newMessage={handleMessage}
-                        receivedMessage={receivedMessage}
-                    ></Chat>
-                </div>
+
                 {activeTab === 'tab1' && (
                     <div id='tab1' className='tab-content active'>
                         <InputWithButton onInputChange={handleLinkChange} />
@@ -256,6 +262,12 @@ const Room = () => {
                             {isUploading && <p>Загрузка...</p>}
                         </div>
                     </div>
+                )}
+                {isChatVisible && (
+                    <Chat
+                        newMessage={handleMessage}
+                        receivedMessage={receivedMessage}
+                    />
                 )}
             </main>
         </div>

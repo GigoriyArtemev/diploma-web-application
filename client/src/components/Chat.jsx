@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Chat = ({ newMessage, receivedMessage }) => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         if (receivedMessage.length) {
@@ -11,22 +11,26 @@ const Chat = ({ newMessage, receivedMessage }) => {
         }
     }, [receivedMessage]);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     const handleMessageSend = () => {
         if (inputValue.trim() !== '') {
-            newMessage(inputValue); //отправляем коллбек
-            setInputValue(''); // Очищаем поле ввода после отправки сообщения
+            newMessage(inputValue);
+            setMessages((prevMessages) => [...prevMessages, inputValue]);
+            setInputValue('');
+        }
+    };
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     return (
         <div className='chat-container'>
-            <div className='messages-container'>
-                {messages.map((message, index) => (
-                    <div key={index} className='message'>
-                        {message}
-                    </div>
-                ))}
-            </div>
             <div className='input-chat-container'>
                 <input
                     type='text'
@@ -35,6 +39,14 @@ const Chat = ({ newMessage, receivedMessage }) => {
                     onChange={(e) => setInputValue(e.target.value)}
                 />
                 <button onClick={handleMessageSend}>Отправить</button>
+            </div>
+            <div className='messages-container'>
+                {messages.map((message, index) => (
+                    <div key={index} className='message'>
+                        {message}
+                    </div>
+                ))}
+                <div ref={messagesEndRef} />
             </div>
         </div>
     );

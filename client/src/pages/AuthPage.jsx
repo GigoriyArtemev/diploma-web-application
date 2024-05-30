@@ -6,13 +6,22 @@ import LoginPage from './LoginPage';
 const AuthPage = () => {
     return (
         <div className='auth-container'>
-            <h2>Аутентификация</h2>
+            <h2 className='text-center'>Аутентификация</h2>
             <Routes>
                 <Route path='register' element={<RegisterPage />} />
                 <Route path='login' element={<LoginPage />} />
             </Routes>
-            <Link to='/auth/register'>Регистрация</Link>
-            <Link to='/auth/login'>Вход</Link>
+            <div className='d-flex justify-content-center mt-4'>
+                <Link
+                    to='/auth/register'
+                    className='btn btn-outline-primary me-2'
+                >
+                    Регистрация
+                </Link>
+                <Link to='/auth/login' className='btn btn-outline-primary'>
+                    Вход
+                </Link>
+            </div>
         </div>
     );
 };

@@ -17,21 +17,29 @@ const RegisterPage = () => {
 
     return (
         <div className='register-page'>
-            <h3>Регистрация</h3>
+            <h3 className='text-center'>Регистрация</h3>
             <form onSubmit={handleRegister}>
-                <input
-                    type='text'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder='Имя пользователя'
-                />
-                <input
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='Пароль'
-                />
-                <button type='submit'>Зарегистрироваться</button>
+                <div className='mb-3'>
+                    <input
+                        type='text'
+                        className='form-control'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder='Имя пользователя'
+                    />
+                </div>
+                <div className='mb-3'>
+                    <input
+                        type='password'
+                        className='form-control'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder='Пароль'
+                    />
+                </div>
+                <button type='submit' className='btn btn-primary w-100'>
+                    Зарегистрироваться
+                </button>
             </form>
         </div>
     );

@@ -1,0 +1,68 @@
+body {
+    background-color: #f7f1f1; /* Нежно-розовый фон */
+}
+
+h3,
+h2 {
+    color: #2e8b57; /* Хвойно-зеленый цвет текста */
+}
+
+.auth-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+}
+
+.auth-container a {
+    margin: 10px;
+    color: #2e8b57;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-container a:hover {
+    color: #245a47;
+    text-decoration: underline;
+}
+
+.register-page,
+.login-page {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input {
+    margin-bottom: 10px;
+}
+
+form input::placeholder {
+    color: #a9a9a9; /* Светло-серый цвет плейсхолдера */
+}
+
+form input:focus {
+    border-color: #2e8b57; /* Хвойно-зеленый цвет фокуса */
+    box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.25);
+}
+
+form button {
+    background-color: #2e8b57; /* Хвойно-зеленый цвет кнопки */
+    border: none;
+}
+
+form button:hover {
+    background-color: #245a47; /* Темно-зеленый цвет при наведении */
+}
