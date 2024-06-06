@@ -27,13 +27,11 @@ const Dashboard = () => {
     }, []);
 
     const handleVideoClick = (videoId) => {
-        // Остановить все видео
         document.querySelectorAll('video').forEach((video) => {
             video.pause();
-            video.currentTime = 0; // Сбросить время воспроизведения на начало
+            video.currentTime = 0;
         });
 
-        // Перенаправить на страницу room
         navigate(`/room/${encodeURIComponent(videoId)}`);
     };
 
@@ -44,13 +42,13 @@ const Dashboard = () => {
         formData.append('title', title);
 
         try {
-            await axios.post('/userUpload', formData, {
+            await axios.post('/user/userUpload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            // Обновляем список видео после успешной загрузки
+
             const response = await axios.get('/user/videos', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -69,7 +67,7 @@ const Dashboard = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            // Обновляем список видео после успешного удаления
+
             setVideos(videos.filter((video) => video._id !== videoId));
         } catch (error) {
             console.error('Ошибка удаления видео', error);

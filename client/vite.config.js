@@ -32,26 +32,12 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
-            '/userUpload': {
+
+            '/user': {
                 target: 'http://localhost:5000',
                 changeOrigin: true,
                 secure: false,
             },
-            '/userUploads': {
-                target: 'http://localhost:5000',
-                changeOrigin: true,
-                secure: false,
-            },
-            '/user/videos': {
-                target: 'http://localhost:5000',
-                changeOrigin: true,
-                secure: false,
-            },
-            // '/room': {
-            //     target: 'http://localhost:5000',
-            //     changeOrigin: true,
-            //     secure: false,
-            // },
         },
     },
 });

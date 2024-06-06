@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const WebSocket = require('ws');
 const http = require('http');
 const multer = require('multer');
-const authRouter = require('./authRouter');
-const authMiddleware = require('./middleware/authMiddleware');
+
+const authRouter = require('./routers/authRouter');
+const userRouter = require('./routers/userRouter');
+
 const path = require('path');
 const fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 const webSocketServer = new WebSocket.Server({ server });
 const port = process.env.PORT || 5000;
-const Video = require('./models/Video'); // Модель Video ПЕРЕНЕСТИ ПОТОМ
 
-// Настройка multer для сохранения видео файлов
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -22,81 +22,19 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + path.extname(file.originalname));
     },
 });
-const upload = multer({ storage: storage });
-const userUpload = multer({ dest: 'userUploads/' });
-app.use('/userUploads', express.static(path.join(__dirname, 'userUploads')));
 
-app.use(express.json()); ///???
+const upload = multer({ storage: storage });
+
+app.use('/userUploads', express.static(path.join(__dirname, 'userUploads')));
+app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRouter);
-//app.use('/user')
+app.use('/user', userRouter);
 app.post('/upload', upload.single('video'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
     res.status(200).send({ url: `/uploads/${req.file.filename}` });
-});
-
-app.post(
-    '/userUpload',
-    authMiddleware,
-    userUpload.single('video'),
-    async (req, res) => {
-        try {
-            const { title } = req.body;
-            const videoPath = req.file.path;
-            const userId = req.user.id;
-
-            const video = new Video({
-                title,
-                path: videoPath,
-                user: userId,
-            });
-
-            await video.save();
-
-            res.status(200).json({ videoId: video._id });
-        } catch (error) {
-            res.status(500).send('Ошибка загрузки видео');
-        }
-    }
-);
-
-app.get('/user/videos', authMiddleware, async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const videos = await Video.find({ user: userId });
-        res.json(videos);
-    } catch (error) {
-        res.status(500).send('Ошибка получения видео');
-    }
-});
-
-app.delete('/user/videos/:id', authMiddleware, async (req, res) => {
-    try {
-        const videoId = req.params.id;
-        const userId = req.user.id;
-
-        const video = await Video.findOneAndDelete({
-            _id: videoId,
-            user: userId,
-        });
-
-        if (!video) {
-            return res.status(404).send('Видео не найдено');
-        }
-
-        // Удаляем видео файл с сервера
-        fs.unlink(video.path, (err) => {
-            if (err) {
-                console.error('Ошибка удаления видео файла', err);
-            }
-        });
-
-        res.status(200).send('Видео удалено');
-    } catch (error) {
-        res.status(500).send('Ошибка удаления видео');
-    }
 });
 
 const addNewPage = (url, id) => {
@@ -252,6 +190,7 @@ webSocketServer.on('connection', (ws) => {
         const substringBeforeDelimiter = message.substring(0, delimiterIndex);
         const substringAfterDelimiter = message.substring(delimiterIndex + 1);
         console.log(substringBeforeDelimiter);
+
         switch (substringBeforeDelimiter) {
             case 'new':
                 addNewPage(substringAfterDelimiter, id);
@@ -269,16 +208,19 @@ webSocketServer.on('connection', (ws) => {
                 getGroupIdsFromPage(id).forEach((id) =>
                     clients[id].send('play_')
                 );
+
                 break;
             case 'pause':
                 getGroupIdsFromPage(id).forEach((id) =>
                     clients[id].send('pause_')
                 );
+
                 break;
             case 'seekTo':
                 getGroupIdsFromPage(id).forEach((id) =>
                     clients[id].send('seekTo_' + substringAfterDelimiter)
                 );
+
                 break;
             case 'message':
                 addNewMessage(id, substringAfterDelimiter);
@@ -288,16 +230,16 @@ webSocketServer.on('connection', (ws) => {
                 getGroupIdsFromPage(id).forEach((id) =>
                     clients[id].send('message_' + JSON.stringify(messages))
                 );
-                break;
 
+                break;
             case 'videoLink':
                 checkLinkToFile(id);
                 changeVideoLink(id, substringAfterDelimiter);
                 getGroupIdsFromPage(id).forEach((id) =>
                     clients[id].send('videoLink_' + substringAfterDelimiter)
                 );
-                break;
 
+                break;
             default:
                 ws.send('неизвестная команда синхронизации.');
                 console.log(
@@ -315,21 +257,14 @@ webSocketServer.on('connection', (ws) => {
     });
 });
 
-// Создание GET маршрута
-app.get('/api', (req, res) => {
-    res.json({
-        message: 'hello from backend!',
-    });
-});
-
 mongoose
     .connect(
-        'mongodb+srv://grigoriyartemyev2:5dBI8ytdk5sstfgU@videodb.bycbfaz.mongodb.net/?retryWrites=true&w=majority&appName=videoDB'
+        'mongodb+srv://exampleMail@gmail.com:password@nameCollection.bycbfaz.mongodb.net/?retryWrites=true&w=majority&appName=nameCollection'
     )
     .then(() => {
         console.log('connented mongoDB sucseccfull');
         server.listen(port, () => {
-            console.log(`slushaem port${port}!`);
+            console.log(`listen ${port}!`);
         });
     })
     .catch((err) => {

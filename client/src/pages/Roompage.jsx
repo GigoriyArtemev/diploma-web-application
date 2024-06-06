@@ -194,7 +194,7 @@ const Room = () => {
                     setReceivedVideLink(response.data.url);
                     wsConnection.send('videoLink_' + response.data.url);
                     setIsUploading(false);
-                    setActiveTab('tab1'); // Switch to the first tab
+                    setActiveTab('tab1');
                 })
                 .catch((error) => {
                     console.error('Error uploading file:', error);

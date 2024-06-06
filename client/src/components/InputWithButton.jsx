@@ -8,8 +8,6 @@ function InputWithButton({ onInputChange }) {
         setValue(event.target.value);
     };
     const handleSubmit = () => {
-        // Здесь можно выполнить действия по отправке значения,
-        // например, отправить его на сервер или использовать в другом месте приложения
         onInputChange(value);
     };
 
