@@ -259,7 +259,7 @@ webSocketServer.on('connection', (ws) => {
 
 mongoose
     .connect(
-        'mongodb+srv://exampleMail@gmail.com:password@nameCollection.bycbfaz.mongodb.net/?retryWrites=true&w=majority&appName=nameCollection'
+        'mongodb+srv://grigoriyartemyev2:5dBI8ytdk5sstfgU@videodb.bycbfaz.mongodb.net/?retryWrites=true&w=majority&appName=videoDB'
     )
     .then(() => {
         console.log('connented mongoDB sucseccfull');

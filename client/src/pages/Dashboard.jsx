@@ -21,6 +21,12 @@ const Dashboard = () => {
                 setVideos(response.data);
             } catch (error) {
                 console.error('Ошибка получения видео', error);
+                if (
+                    error.response.data.message ===
+                    'Пользователь не авторизован'
+                ) {
+                    navigate(`/auth/login`);
+                }
             }
         };
         fetchVideos();

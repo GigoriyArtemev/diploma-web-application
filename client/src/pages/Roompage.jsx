@@ -222,7 +222,7 @@ const Room = () => {
                         onClick={() => openTab('tab1')}
                         active={activeTab === 'tab1'}
                     >
-                        YouTube player
+                        Media player
                     </Button>
                     <Button
                         onClick={() => openTab('tab2')}

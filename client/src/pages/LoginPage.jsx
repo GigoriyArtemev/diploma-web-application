@@ -16,7 +16,7 @@ const LoginPage = () => {
             });
             const token = response.data.token;
             if (token) {
-                localStorage.setItem('token', token); // Сохраняем токен в localStorage
+                localStorage.setItem('token', token);
                 console.log(
                     `Сохранённый токен: ${localStorage.getItem('token')}`
                 );
