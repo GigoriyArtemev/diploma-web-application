@@ -1,3 +1,3 @@
 module.exports = {
-    secret: 'SUPER_SECRET_KEY', //fake key
+    secret: 'SUPER_FAKE_KEY', //fake key
 };
